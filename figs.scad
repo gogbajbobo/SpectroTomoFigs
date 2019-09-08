@@ -1,6 +1,28 @@
 // $vpr = [-110, 180, 30]; // shows rotation
-// $vpt = [50, 50, 150]; // shows translation (i.e. won't be affected by rotate and zoom)
+// $vpt = [-50, 50, 150]; // shows translation (i.e. won't be affected by rotate and zoom)
 // $vpd = 1000; // shows the camera distance [Note: Requires version 2015.03]
+
+module latticeGrid() {
+
+    translate([-200, -200, -100]) {
+
+        start = 0;
+        stop = 400;
+        step = 100;
+        range = [start:step:stop];
+
+        for (x=range, y=range, z=range){
+            translate([x, y, z]) {
+                sphere(1.5);
+                if (z != stop) cylinder(r=0.25, h=step);
+                if (y != stop) rotate([-90, 0, 0]) cylinder(r=0.25, h=step);
+                if (x != stop) rotate([0, 90, 0]) cylinder(r=0.25, h=step);
+            }
+        }
+
+    }
+
+}
 
 module vectorWithArrow(lenght=100, width="meduim") {
 
@@ -118,17 +140,18 @@ module torusSector(lenght) {
     translate([-2*lenght, 0, -2*lenght]) cube(4*lenght);
 }
 
+
+latticeGrid();
+
 vectorWithArrow();
 
 lenght_a = 100*sin(45);
 start_a = lenght_a*cos(45);
-
 vectorsKa(start_a, lenght_a);
 circleKa(start_a);
 
 lenght_b = 140*sin(45);
 start_b = lenght_b*cos(45);
-
 vectorKb(start_b, lenght_b);
 circleKb(start_b);
 color("gray", 0.8) vectorsKbDif(start_b, lenght_b);
